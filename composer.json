@@ -1,0 +1,21 @@
+{
+    "name": "hbsolutions/php-helpers",
+    "description": "Common PHP helpers for a PHP project.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "HBS Development Team",
+            "email": "dev@hbsolutions.ru"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": "^7.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "HBS\\Helpers\\": "src/"
+        }
+    }
+}
