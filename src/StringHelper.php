@@ -49,4 +49,13 @@ final class StringHelper
     {
         return lcfirst(str_replace('-', '', ucwords($kebabCaseInput, '-')));
     }
+
+    /**
+     * @param string $value
+     * @return string
+     */
+    public static function removeZeroWidthCharsAndTrim(string $value): string
+    {
+        return trim(preg_replace( '/[\x{200B}-\x{200D}]/u', '', $value));
+    }
 }
