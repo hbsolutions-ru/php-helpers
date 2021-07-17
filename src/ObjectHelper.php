@@ -37,7 +37,7 @@ final class ObjectHelper
         foreach($properties as $property) {
             $propertyName = $property->getName();
             if ($property->isPublic() && isset($object->{$propertyName})) {
-                $property->setValue($result, $object->{$propName});
+                $property->setValue($result, $object->{$propertyName});
             }
         }
 
