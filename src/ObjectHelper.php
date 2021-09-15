@@ -8,7 +8,7 @@ final class ObjectHelper
     {
         $array = json_decode(json_encode($object), true);
         foreach ($mutedFields as $field) {
-            if (isset($array[$field]) || $array[$field] === null) {
+            if (array_key_exists($field, $array)) {
                 unset($array[$field]);
             }
         }
