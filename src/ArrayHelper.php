@@ -55,7 +55,7 @@ final class ArrayHelper
         return $result;
     }
 
-    public function removeAllItemsWithValue(array &$array, $value): int
+    public static function removeAllItemsWithValue(array &$array, $value): int
     {
         $count = 0;
 
