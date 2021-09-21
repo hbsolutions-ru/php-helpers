@@ -30,28 +30,40 @@ final class ArrayHelper
         return array_merge(...$array);
     }
 
-    public static function keysFromColumn(array $subject, string $uniqueColumn): array
+    public static function keysFromColumn(array $array, string $uniqueColumn): array
     {
-        $keys = array_column($subject, $uniqueColumn);
+        $keys = array_column($array, $uniqueColumn);
 
-        if (count(array_unique($keys, SORT_STRING)) !== count($subject)) {
+        if (count(array_unique($keys, SORT_STRING)) !== count($array)) {
             throw new DuplicateKeyException('Duplicate values found in the keys column');
         }
 
-        return array_combine($keys, $subject);
+        return array_combine($keys, $array);
     }
 
-    public static function mapKeys(array $subject, array $keysMap): array
+    public static function mapKeys(array $array, array $keysMap): array
     {
         if (!count($keysMap)) {
-            return $subject;
+            return $array;
         }
 
         $result = [];
-        foreach ($subject as $key => $value) {
+        foreach ($array as $key => $value) {
             $result[$keysMap[$key] ?? $key] = $value;
         }
 
         return $result;
+    }
+
+    public function removeAllItemsWithValue(array &$array, $value): int
+    {
+        $count = 0;
+
+        foreach (array_keys($array, $value, true) as $key) {
+            unset($array[$key]);
+            $count++;
+        }
+
+        return $count;
     }
 }
