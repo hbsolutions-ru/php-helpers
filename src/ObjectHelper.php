@@ -43,4 +43,14 @@ final class ObjectHelper
 
         return $result;
     }
+
+    /**
+     * @param array $objects
+     * @param string $propertyName
+     * @return int[]
+     */
+    public static function extractIds(array $objects, string $propertyName = 'id'): array
+    {
+        return array_map('intval', array_column($objects, $propertyName));
+    }
 }
