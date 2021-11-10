@@ -12,3 +12,4 @@ Available helpers:
 - DateTimeHelper
 - ObjectHelper
 - StringHelper
+- UuidHelper

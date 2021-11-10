@@ -24,27 +24,27 @@ final class DateTimeHelper
         }
 
         return [
-            self::UTC_TIME_OFFSET_SIGN => $matches['sign'],
-            self::UTC_TIME_OFFSET_HOURS => intval($matches['hours']),
-            self::UTC_TIME_OFFSET_MINUTES => intval($matches['minutes']),
+            static::UTC_TIME_OFFSET_SIGN => $matches['sign'],
+            static::UTC_TIME_OFFSET_HOURS => intval($matches['hours']),
+            static::UTC_TIME_OFFSET_MINUTES => intval($matches['minutes']),
         ];
     }
 
     public static function utcTimeOffsetToSeconds(string $offset): int
     {
-        $parts = self::parseUtcTimeOffset($offset);
+        $parts = static::parseUtcTimeOffset($offset);
 
         if (!$parts) {
             return 0;
         }
 
         [
-            self::UTC_TIME_OFFSET_SIGN => $sign,
-            self::UTC_TIME_OFFSET_HOURS => $hours,
-            self::UTC_TIME_OFFSET_MINUTES => $minutes,
+            static::UTC_TIME_OFFSET_SIGN => $sign,
+            static::UTC_TIME_OFFSET_HOURS => $hours,
+            static::UTC_TIME_OFFSET_MINUTES => $minutes,
         ] = $parts;
 
-        return ($sign === '-' ? -1 : 1) * ($hours * self::HOUR + $minutes * self::MINUTE);
+        return ($sign === '-' ? -1 : 1) * ($hours * static::HOUR + $minutes * static::MINUTE);
     }
 
     public static function validateFormat(string $date, string $format = 'Y-m-d'): bool
@@ -55,16 +55,16 @@ final class DateTimeHelper
 
     public static function validateUtcTimeOffset(string $offset): bool
     {
-        $parts = self::parseUtcTimeOffset($offset);
+        $parts = static::parseUtcTimeOffset($offset);
 
         if (!$parts) {
             return false;
         }
 
         [
-            self::UTC_TIME_OFFSET_SIGN => $sign,
-            self::UTC_TIME_OFFSET_HOURS => $hours,
-            self::UTC_TIME_OFFSET_MINUTES => $minutes,
+            static::UTC_TIME_OFFSET_SIGN => $sign,
+            static::UTC_TIME_OFFSET_HOURS => $hours,
+            static::UTC_TIME_OFFSET_MINUTES => $minutes,
         ] = $parts;
 
         if (preg_match('/^\x{00B1}$/u', $sign) === 1 && !($hours === 0 && $minutes === 0)) {
