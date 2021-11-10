@@ -4,7 +4,7 @@ namespace HBS\Helpers;
 
 final class StringHelper
 {
-    const BASE62 = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+    private const BASE62 = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
 
     public static function isNonEmptyString($value): bool
     {
