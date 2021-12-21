@@ -7,6 +7,20 @@ use HBS\Helpers\DateTimeHelper;
 
 final class DateTimeHelperTest extends TestCase
 {
+    public function testConvertFormatInUtc(): void
+    {
+        $dateTime = DateTimeHelper::convertFormatInUtc(
+            '2021-12-02 12:34:56',
+            'Y-m-d H:i:s',
+            'Y-m-d\\TH:i:s\\.v\\Z'
+        );
+
+        $this->assertEquals(
+            '2021-12-02T12:34:56.000Z',
+            $dateTime
+        );
+    }
+
     public function testParseUtcTimeOffset(): void
     {
         $parts = DateTimeHelper::parseUtcTimeOffset('UTC-05:00');
