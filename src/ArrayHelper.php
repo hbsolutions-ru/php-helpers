@@ -9,6 +9,13 @@ use HBS\Helpers\Exception\{
 
 final class ArrayHelper
 {
+    public static function filterNulls(array $array): array
+    {
+        return array_filter($array, function ($item) {
+            return $item !== null;
+        });
+    }
+
     public static function flatten(array $array, int $rowLength = 0): array
     {
         $arraysCount = array_reduce($array, function($carry, $item) {
