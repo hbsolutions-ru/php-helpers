@@ -36,6 +36,39 @@ final class DateTimeHelperTest extends TestCase
         $this->assertEquals(0, $parts[DateTimeHelper::UTC_TIME_OFFSET_MINUTES]);
     }
 
+    public function testSecondsToHumanReadableTimeInterval()
+    {
+        $this->assertEquals(
+            '00:20:34',
+            DateTimeHelper::secondsToHumanReadableTimeInterval(1234)
+        );
+
+        $this->assertEquals(
+            '01:34:38',
+            DateTimeHelper::secondsToHumanReadableTimeInterval(5678)
+        );
+
+        $this->assertEquals(
+            '00:00:00',
+            DateTimeHelper::secondsToHumanReadableTimeInterval(0)
+        );
+
+        $this->assertEquals(
+            '-00:01:07',
+            DateTimeHelper::secondsToHumanReadableTimeInterval(-67)
+        );
+
+        $this->assertEquals(
+            '-01:30:32',
+            DateTimeHelper::secondsToHumanReadableTimeInterval(-5432)
+        );
+
+        $this->assertEquals(
+            '291:16:16',
+            DateTimeHelper::secondsToHumanReadableTimeInterval(1048576)
+        );
+    }
+
     public function testUtcTimeOffsetToSeconds(): void
     {
         $this->assertEquals(

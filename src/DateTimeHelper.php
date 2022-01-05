@@ -39,6 +39,17 @@ final class DateTimeHelper
         ];
     }
 
+    public static function secondsToHumanReadableTimeInterval(int $seconds): string
+    {
+        return sprintf(
+            '%s%02d:%02d:%02d',
+            $seconds < 0 ? '-' : '',
+            intval(abs($seconds) / 3600),
+            intval(abs($seconds) / 60 % 60),
+            intval(abs($seconds) % 60)
+        );
+    }
+
     public static function utcTimeOffsetToSeconds(string $offset): int
     {
         $parts = static::parseUtcTimeOffset($offset);
