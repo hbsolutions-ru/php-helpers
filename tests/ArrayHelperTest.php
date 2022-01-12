@@ -29,5 +29,26 @@ final class ArrayHelperTest extends TestCase
         $this->assertArrayHasKey('firstName', $result);
         $this->assertArrayHasKey('lastName', $result);
         $this->assertArrayHasKey('age', $result);
+
+        $this->assertArrayNotHasKey('middleName', $result);
+        $this->assertArrayNotHasKey('address', $result);
+    }
+
+    public function testFlatten(): void
+    {
+        $dataSet = [
+            [1, 'Field1', 'Value1'],
+            [2, 'Field2', 'Value2'],
+            [3, 'Field3', 'Value3'],
+        ];
+        $expected = [1, 'Field1', 'Value1', 2, 'Field2', 'Value2', 3, 'Field3', 'Value3'];
+
+        $result = ArrayHelper::flatten($dataSet);
+
+        $this->assertCount(9, $result);
+
+        foreach ($result as $index => $value) {
+            $this->assertEquals($expected[$index], $value);
+        }
     }
 }
