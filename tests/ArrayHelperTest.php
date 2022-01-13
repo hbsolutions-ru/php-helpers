@@ -45,10 +45,27 @@ final class ArrayHelperTest extends TestCase
 
         $result = ArrayHelper::flatten($dataSet);
 
-        $this->assertCount(9, $result);
+        $this->assertCount(count($expected), $result);
 
         foreach ($result as $index => $value) {
             $this->assertEquals($expected[$index], $value);
+        }
+    }
+
+    public function testKeysFromColumn(): void
+    {
+        $dataSet = [
+            ['id' => 1, 'entityId' => 65, 'name' => 'first'],
+            ['id' => 2, 'entityId' => 32, 'name' => 'second'],
+            ['id' => 3, 'entityId' => 98, 'name' => 'third'],
+        ];
+
+        $result = ArrayHelper::keysFromColumn($dataSet, 'entityId');
+
+        $this->assertCount(3, $result);
+
+        foreach ($result as $key => $value) {
+            $this->assertEquals($key, $value['entityId']);
         }
     }
 }
