@@ -68,4 +68,31 @@ final class ArrayHelperTest extends TestCase
             $this->assertEquals($key, $value['entityId']);
         }
     }
+
+    public function testMapKeys(): void
+    {
+        $array = [
+            'first' => 'John',
+            'last' => 'Doe',
+            'age' => 25,
+            'address' => 'Moscow',
+        ];
+        $map = [
+            'first' => 'firstName',
+            'last' => 'lastName',
+            'address' => 'location',
+        ];
+
+        $result = ArrayHelper::mapKeys($array, $map);
+
+        $this->assertCount(count($array), $result);
+
+        $this->assertArrayHasKey('firstName', $result);
+        $this->assertArrayHasKey('lastName', $result);
+        $this->assertArrayHasKey('location', $result);
+
+        $this->assertEquals($array['first'], $result['firstName']);
+        $this->assertEquals($array['last'], $result['lastName']);
+        $this->assertEquals($array['address'], $result['location']);
+    }
 }
