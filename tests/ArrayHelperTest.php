@@ -95,4 +95,18 @@ final class ArrayHelperTest extends TestCase
         $this->assertEquals($array['last'], $result['lastName']);
         $this->assertEquals($array['address'], $result['location']);
     }
+
+    public function testRemoveAllItemsWithValue(): void
+    {
+        $array = ['one', 'two', 4, 2, null, 'two', 6, 'three', null];
+
+        ArrayHelper::removeAllItemsWithValue($array, null);
+        $this->assertCount(7, $array);
+
+        ArrayHelper::removeAllItemsWithValue($array, 'two');
+        $this->assertCount(5, $array);
+
+        ArrayHelper::removeAllItemsWithValue($array, 6);
+        $this->assertCount(4, $array);
+    }
 }
