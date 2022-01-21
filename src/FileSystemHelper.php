@@ -6,6 +6,8 @@ use HBS\Helpers\Exception\UnexpectedValueException;
 
 final class FileSystemHelper
 {
+    private const DEFAULT_FILENAME_LENGTH = 16;
+
     public static function buildPath(array $parts): string
     {
         if (count($parts) === 0) {
@@ -29,5 +31,25 @@ final class FileSystemHelper
         array_push($parts, $last);
 
         return implode(DIRECTORY_SEPARATOR, $parts);
+    }
+
+    public static function generateFilename(
+        $pathPrefix = '',
+        ?string $fileExtension = null,
+        int $nameLength = self::DEFAULT_FILENAME_LENGTH
+    ): string
+    {
+        $pathPrefix = $pathPrefix ?: '';
+
+        if (is_array($pathPrefix)) {
+            $pathPrefix = self::buildPath($pathPrefix);
+        }
+
+        $filename = StringHelper::randomBase62($nameLength) . ($fileExtension === null ? '' : '.' . $fileExtension);
+
+        return self::buildPath([
+            $pathPrefix,
+            $filename,
+        ]);
     }
 }
