@@ -7,6 +7,7 @@ use HBS\Helpers\Exception\UnexpectedValueException;
 final class FileSystemHelper
 {
     private const DEFAULT_FILENAME_LENGTH = 16;
+    private const DIR_MODE = 0777;
 
     public static function buildPath(array $parts): string
     {
@@ -31,6 +32,17 @@ final class FileSystemHelper
         array_push($parts, $last);
 
         return implode(DIRECTORY_SEPARATOR, $parts);
+    }
+
+    public static function createPath(string $fullPath): bool
+    {
+        $dir = dirname($fullPath);
+
+        if (is_dir($dir)) {
+            return true;
+        }
+
+        return mkdir($dir, self::DIR_MODE, true);
     }
 
     public static function generateFilename(
