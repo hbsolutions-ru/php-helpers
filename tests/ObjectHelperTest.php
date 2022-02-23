@@ -4,18 +4,22 @@ namespace Tests;
 
 use PHPUnit\Framework\TestCase;
 use HBS\Helpers\ObjectHelper;
+use Tests\ObjectHelperData\{
+    Customer,
+    User,
+};
 
 final class ObjectHelperTest extends TestCase
 {
     public function testToArray(): void
     {
-        $object = new \stdClass();
-        $object->firstName = 'John';
-        $object->lastName = 'Doe';
-        $object->middleName = null;
-        $object->age = 25;
+        $user = new User();
+        $user->firstName = 'John';
+        $user->lastName = 'Doe';
+        $user->middleName = null;
+        $user->age = 25;
 
-        $array = ObjectHelper::toArray($object);
+        $array = ObjectHelper::toArray($user);
 
         $this->assertCount(4, $array);
 
@@ -24,33 +28,33 @@ final class ObjectHelperTest extends TestCase
         $this->assertArrayHasKey('middleName', $array);
         $this->assertArrayHasKey('age', $array);
 
-        $this->assertEquals($object->firstName, $array['firstName']);
-        $this->assertEquals($object->lastName, $array['lastName']);
-        $this->assertEquals($object->middleName, $array['middleName']);
-        $this->assertEquals($object->age, $array['age']);
+        $this->assertEquals($user->firstName, $array['firstName']);
+        $this->assertEquals($user->lastName, $array['lastName']);
+        $this->assertEquals($user->middleName, $array['middleName']);
+        $this->assertEquals($user->age, $array['age']);
     }
 
     public function testObjectsToArray(): void
     {
-        $object1 = new \stdClass();
-        $object1->firstName = 'John';
-        $object1->lastName = 'Doe';
-        $object1->middleName = null;
-        $object1->age = 25;
+        $user1 = new User();
+        $user1->firstName = 'John';
+        $user1->lastName = 'Doe';
+        $user1->middleName = null;
+        $user1->age = 25;
 
-        $object2 = new \stdClass();
-        $object2->firstName = 'Jane';
-        $object2->lastName = 'Doe';
-        $object2->middleName = null;
-        $object2->age = 23;
+        $user2 = new User();
+        $user2->firstName = 'Jane';
+        $user2->lastName = 'Doe';
+        $user2->middleName = null;
+        $user2->age = 23;
 
-        $object3 = new \stdClass();
-        $object3->firstName = 'John';
-        $object3->lastName = 'Smith';
-        $object3->middleName = 'Jack';
-        $object3->age = 30;
+        $user3 = new User();
+        $user3->firstName = 'John';
+        $user3->lastName = 'Smith';
+        $user3->middleName = 'Jack';
+        $user3->age = 30;
 
-        $array = ObjectHelper::objectsToArray([$object1, $object2, $object3]);
+        $array = ObjectHelper::objectsToArray([$user1, $user2, $user3]);
 
         $this->assertCount(3, $array);
 
@@ -62,5 +66,24 @@ final class ObjectHelperTest extends TestCase
 
         $this->assertIsArray($array[2]);
         $this->assertCount(4, $array[2]);
+    }
+
+    public function testCastWithPublicProperties(): void
+    {
+        $user = new User();
+        $user->firstName = 'John';
+        $user->lastName = 'Doe';
+        $user->middleName = null;
+        $user->age = 25;
+
+        /** @var Customer $customer */
+        $customer = ObjectHelper::castWithPublicProperties($user, Customer::class);
+
+        $this->assertEquals(Customer::class, get_class($customer));
+
+        $this->assertEquals($user->firstName, $customer->firstName);
+        $this->assertEquals($user->lastName, $customer->lastName);
+        $this->assertEquals($user->middleName, $customer->middleName);
+        $this->assertEquals($user->age, $customer->age);
     }
 }
