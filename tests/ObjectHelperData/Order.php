@@ -2,20 +2,17 @@
 
 namespace Tests\ObjectHelperData;
 
-class User
+class Order
 {
     /** @var int */
     public $id;
 
-    /** @var string */
-    public $firstName;
+    /** @var int */
+    public $customerId;
 
     /** @var string */
-    public $lastName;
-
-    /** @var string */
-    public $middleName;
+    public $productName;
 
     /** @var int */
-    public $age;
+    public $amount;
 }
