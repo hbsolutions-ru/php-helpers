@@ -21,6 +21,17 @@ final class DateTimeHelperTest extends TestCase
         );
     }
 
+    public function testNow(): void
+    {
+        $now = DateTimeHelper::now();
+        $expected = date('Y-m-d H:i:s');
+
+        $this->assertEquals(
+            $expected,
+            $now->format('Y-m-d H:i:s')
+        );
+    }
+
     public function testParseUtcTimeOffset(): void
     {
         $parts = DateTimeHelper::parseUtcTimeOffset('UTC-05:00');

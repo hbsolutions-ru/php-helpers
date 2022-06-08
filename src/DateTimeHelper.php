@@ -24,6 +24,15 @@ final class DateTimeHelper
         return $dateTime->format($outputFormat);
     }
 
+    public static function now(string $timeZone = self::DATE_TIME_ZONE_UTC): DateTime
+    {
+        return DateTime::createFromFormat(
+            'U.u',
+            number_format(microtime(true), 6, '.', ''),
+            new DateTimeZone($timeZone)
+        );
+    }
+
     public static function parseUtcTimeOffset(string $offset): ?array
     {
         $success = preg_match(static::UTC_TIME_OFFSET_REGEX, $offset, $matches) === 1;
