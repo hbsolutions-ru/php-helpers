@@ -20,7 +20,7 @@ final class ArrayHelper
     {
         $arraysCount = array_reduce($array, function($carry, $item) {
             return $carry + (is_array($item) ? 1 : 0);
-        });
+        }, 0);
 
         if (count($array) !== $arraysCount) {
             throw new InconsistencyException('Array should contains only arrays, to be flatten');

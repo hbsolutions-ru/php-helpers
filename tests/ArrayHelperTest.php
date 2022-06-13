@@ -52,6 +52,15 @@ final class ArrayHelperTest extends TestCase
         }
     }
 
+    public function testFlattenEmptyArray(): void
+    {
+        $dataSet = [];
+
+        $result = ArrayHelper::flatten($dataSet);
+
+        $this->assertEmpty($result);
+    }
+
     public function testKeysFromColumn(): void
     {
         $dataSet = [
