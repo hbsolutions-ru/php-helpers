@@ -2,17 +2,19 @@
 
 namespace HBS\Helpers;
 
+use ReflectionClass;
+use HBS\Helpers\Exception\ClassNotFound;
+
 final class ObjectHelper
 {
     /**
-     * @param $object
+     * @param object $object
      * @param string $className
      * @return object
-     * @throws \ReflectionException
      */
     public static function castWithPublicProperties($object, string $className)
     {
-        $reflectionClass = new \ReflectionClass($className);
+        $reflectionClass = self::getReflectionClass($className);
         $properties = $reflectionClass->getProperties();
         $result = $reflectionClass->newInstance();
 
@@ -40,11 +42,10 @@ final class ObjectHelper
      * @param array $fieldsMap
      * @param string $className
      * @return object
-     * @throws \ReflectionException
      */
     public static function hydrateFromArray(array $fieldsMap, string $className)
     {
-        $reflectionClass = new \ReflectionClass($className);
+        $reflectionClass = self::getReflectionClass($className);
         $properties = $reflectionClass->getProperties();
         $result = $reflectionClass->newInstance();
 
@@ -56,6 +57,16 @@ final class ObjectHelper
         }
 
         return $result;
+    }
+
+    /**
+     * @param object|string $objectOrClassName
+     * @param string $interfaceName
+     * @return bool
+     */
+    public static function implementsInterface($objectOrClassName, string $interfaceName): bool
+    {
+        return self::getReflectionClass($objectOrClassName)->implementsInterface($interfaceName);
     }
 
     /**
@@ -71,7 +82,7 @@ final class ObjectHelper
     }
 
     /**
-     * @param $object
+     * @param object $object
      * @param string[] $mutedFields
      * @return array
      */
@@ -84,5 +95,31 @@ final class ObjectHelper
             }
         }
         return $array;
+    }
+
+    /**
+     * @param object|string $objectOrClassName
+     * @return ReflectionClass
+     */
+    private static function getReflectionClass($objectOrClassName): ReflectionClass
+    {
+        if (!(
+            is_string($objectOrClassName) || is_object($objectOrClassName)
+        )) {
+            throw new \InvalidArgumentException("Object or class name (string) argument expected");
+        }
+
+        try {
+            return new ReflectionClass($objectOrClassName);
+        } catch (\ReflectionException $e) {
+            $className = is_string($objectOrClassName)
+                ? (string)$objectOrClassName
+                : get_class($objectOrClassName);
+
+            throw new ClassNotFound(
+                sprintf("Class '%s' not found; Reason: %s", $className, $e->getMessage()),
+                $e->getCode(), $e
+            );
+        }
     }
 }

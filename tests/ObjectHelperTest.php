@@ -3,10 +3,15 @@
 namespace Tests;
 
 use PHPUnit\Framework\TestCase;
-use HBS\Helpers\ObjectHelper;
+use HBS\Helpers\{
+    Exception\ClassNotFound,
+    ObjectHelper,
+};
 use Tests\ObjectHelperData\{
     Customer,
     Order,
+    ProviderService,
+    ServiceInterface,
     User,
 };
 
@@ -80,6 +85,36 @@ final class ObjectHelperTest extends TestCase
         $this->assertEquals($data['lastName'], $user->lastName);
         $this->assertEquals($data['middleName'], $user->middleName);
         $this->assertEquals($data['age'], $user->age);
+    }
+
+    public function testImplementsInterface(): void
+    {
+        $user = new User();
+
+        $this->assertFalse(
+            ObjectHelper::implementsInterface($user, ServiceInterface::class)
+        );
+        $this->assertFalse(
+            ObjectHelper::implementsInterface(User::class, ServiceInterface::class)
+        );
+
+        $provider = new ProviderService();
+
+        $this->assertTrue(
+            ObjectHelper::implementsInterface($provider, ServiceInterface::class)
+        );
+        $this->assertTrue(
+            ObjectHelper::implementsInterface(ProviderService::class, ServiceInterface::class)
+        );
+
+        $className = "NotExistingClassName";
+
+        try {
+            ObjectHelper::implementsInterface($className, ServiceInterface::class);
+            $this->fail("Exception not thrown but expected");
+        } catch (ClassNotFound $e) {
+            $this->assertStringContainsString("Class '" . $className . "' not found", $e->getMessage());
+        }
     }
 
     public function testObjectsToArray(): void
