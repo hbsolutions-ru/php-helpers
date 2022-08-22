@@ -16,6 +16,16 @@ final class StringHelperTest extends TestCase
         $this->assertEquals("the_quick_brown_fox_jumps_over_the_lazy_dog", $result);
     }
 
+    public function testComboKebabToSnakeCase(): void
+    {
+        $string = "the-quick-brown-fox-jumps-over-the-lazy-dog";
+
+        $camelCase = StringHelper::kebabToCamelCase($string);
+        $snakeCase = StringHelper::camelToSnakeCase($camelCase);
+
+        $this->assertEquals("the_quick_brown_fox_jumps_over_the_lazy_dog", $snakeCase);
+    }
+
     public function testGetLastPart(): void
     {
         $string = "The quick brown fox jumps over the lazy dog";
@@ -44,5 +54,14 @@ final class StringHelperTest extends TestCase
         $this->assertFalse(StringHelper::isNonEmptyString(42));
         $this->assertFalse(StringHelper::isNonEmptyString(3.1415926));
         $this->assertFalse(StringHelper::isNonEmptyString(["hello world"]));
+    }
+
+    public function testKebabToCamelCase(): void
+    {
+        $result = StringHelper::kebabToCamelCase("hello-world");
+        $this->assertEquals("helloWorld", $result);
+
+        $result = StringHelper::kebabToCamelCase("the-quick-brown-fox-jumps-over-the-lazy-dog");
+        $this->assertEquals("theQuickBrownFoxJumpsOverTheLazyDog", $result);
     }
 }
