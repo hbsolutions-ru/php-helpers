@@ -32,4 +32,17 @@ final class StringHelperTest extends TestCase
         $result = StringHelper::getLastPart("e", $string);
         $this->assertEquals(" lazy dog", $result);
     }
+
+    public function testIsNonEmptyString(): void
+    {
+        // Positive
+        $this->assertTrue(StringHelper::isNonEmptyString("hello world"));
+
+        // Negative
+        $this->assertFalse(StringHelper::isNonEmptyString(''));
+        $this->assertFalse(StringHelper::isNonEmptyString(null));
+        $this->assertFalse(StringHelper::isNonEmptyString(42));
+        $this->assertFalse(StringHelper::isNonEmptyString(3.1415926));
+        $this->assertFalse(StringHelper::isNonEmptyString(["hello world"]));
+    }
 }
