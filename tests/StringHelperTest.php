@@ -64,4 +64,18 @@ final class StringHelperTest extends TestCase
         $result = StringHelper::kebabToCamelCase("the-quick-brown-fox-jumps-over-the-lazy-dog");
         $this->assertEquals("theQuickBrownFoxJumpsOverTheLazyDog", $result);
     }
+
+    public function testRandomBase62(): void
+    {
+        $base62 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+        $length = 16;
+
+        $result = StringHelper::randomBase62($length);
+
+        $this->assertEquals($length, strlen($result));
+
+        for ($i = 0; $i < $length; $i++) {
+            $this->assertStringContainsString($result[$i], $base62);
+        }
+    }
 }
