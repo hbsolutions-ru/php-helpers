@@ -67,6 +67,15 @@ final class DateTimeHelper
         );
     }
 
+    public static function timestampToDateTime(int $timestamp): DateTimeImmutable
+    {
+        return DateTimeImmutable::createFromFormat(
+            'U',
+            (string)$timestamp,
+            new DateTimeZone(self::DATE_TIME_ZONE_UTC)
+        );
+    }
+
     public static function utcTimeOffsetToSeconds(string $offset): int
     {
         $parts = self::parseUtcTimeOffset($offset);

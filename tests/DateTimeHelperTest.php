@@ -80,6 +80,15 @@ final class DateTimeHelperTest extends TestCase
         );
     }
 
+    public function testTimestampToDateTime(): void
+    {
+        $dateTime = DateTimeHelper::timestampToDateTime(1680307200);
+
+        $this->assertEquals("2023-04-01T00:00:00", $dateTime->format("Y-m-d\\TH:i:s"));
+        $this->assertEquals(0, $dateTime->getOffset());
+        $this->assertEquals("+00:00", $dateTime->getTimezone()->getName());
+    }
+
     public function testUtcTimeOffsetToSeconds(): void
     {
         $this->assertEquals(
