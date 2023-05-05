@@ -62,7 +62,7 @@ final class DateTimeHelper
             '%s%02d:%02d:%02d',
             $seconds < 0 ? '-' : '',
             intval(abs($seconds) / 3600),
-            abs($seconds) / 60 % 60,
+            intval(abs($seconds) / 60) % 60,
             abs($seconds) % 60
         );
     }
