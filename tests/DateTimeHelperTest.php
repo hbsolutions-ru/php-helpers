@@ -7,6 +7,33 @@ use HBS\Helpers\DateTimeHelper;
 
 final class DateTimeHelperTest extends TestCase
 {
+    public function dataConvertFormat(): array
+    {
+        return [
+            ['2021-12-02 12:34:56', 'Y-m-d H:i:s', 'Y-m-d\\TH:i:s\\.v\\Z', 'UTC', '2021-12-02T12:34:56.000Z'],
+            ['12/03/23 01:23:45 PM', 'm/d/y h:i:s A', 'Y-m-d\\TH:i:s; U', 'Asia/Jakarta', '2023-12-03T13:23:45; 1701584625'],
+            ['12/03/23 01:23:45 PM', 'm/d/y h:i:s A', 'Y-m-d\\TH:i:s; U', 'Europe/Berlin', '2023-12-03T13:23:45; 1701606225'],
+        ];
+    }
+
+    /**
+     * @dataProvider dataConvertFormat
+     */
+    public function testConvertFormat($date, $inputFormat, $outputFormat, $timeZone, $expected): void
+    {
+        $dateTime = DateTimeHelper::convertFormat(
+            $date,
+            $inputFormat,
+            $outputFormat,
+            $timeZone
+        );
+
+        $this->assertEquals(
+            $expected,
+            $dateTime
+        );
+    }
+
     public function testConvertFormatInUtc(): void
     {
         $dateTime = DateTimeHelper::convertFormatInUtc(

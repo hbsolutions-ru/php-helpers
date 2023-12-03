@@ -12,6 +12,7 @@ use function microtime;
 use function number_format;
 use function preg_match;
 use function sprintf;
+use function var_dump;
 
 final class DateTimeHelper
 {
@@ -26,10 +27,27 @@ final class DateTimeHelper
     public const UTC_TIME_OFFSET_HOURS = 'hours';
     public const UTC_TIME_OFFSET_MINUTES = 'minutes';
 
+    public static function convertFormat(
+        string $date,
+        string $inputFormat,
+        string $outputFormat,
+        string $timeZone = self::DATE_TIME_ZONE_UTC
+    ): string
+    {
+        return (DateTimeImmutable::createFromFormat(
+            $inputFormat,
+            $date,
+            new DateTimeZone($timeZone)
+        ))
+            ->format($outputFormat);
+    }
+
+    /**
+     * @deprecated Use DateTimeHelper::convertFormat instead.
+     */
     public static function convertFormatInUtc(string $date, string $inputFormat, string $outputFormat): string
     {
-        $dateTime = DateTimeImmutable::createFromFormat($inputFormat, $date, new DateTimeZone(self::DATE_TIME_ZONE_UTC));
-        return $dateTime->format($outputFormat);
+        return self::convertFormat($date, $inputFormat, $outputFormat, self::DATE_TIME_ZONE_UTC);
     }
 
     public static function now(string $timeZone = self::DATE_TIME_ZONE_UTC): DateTimeImmutable
